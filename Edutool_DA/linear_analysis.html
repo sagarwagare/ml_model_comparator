@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linear Data Analysis</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 5px; }
+        table { width: 60%; margin: auto; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 8px; text-align: center; }
+        th { background-color: #f4f4f4; }
+		
+					/* Style the header */
+.header {
+  background-color: #3de6e9;
+  padding: 20px;
+  padding-top:5px;
+  padding-bottom:5px;
+  text-align: Left;
+}
+
+
+    </style>
+</head>
+<body>
+<div class="header">
+  <h1>Self Learning Data Analysis</h1>
+</div>
+
+    <h1>Linear Data Analysis</h1>
+    <p>Linear data analysis helps identify relationships between variables using linear methods such as regression and correlation. The Linear Data Analysis page introduces students to the concept of analyzing relationships between variables using a linear approach. Linear data analysis is a fundamental statistical technique used to identify and interpret patterns in data where one variable influences another in a proportional manner. This method is widely applied in economics, engineering, and social sciences to predict outcomes based on known data. The page demonstrates a simple linear relationship between two variables: an independent variable (X) and a dependent variable (Y). The relationship follows the equation Y = 2X, meaning that for every unit increase in X, the value of Y doubles.</p>
+
+<p>To help users understand this concept visually, the page includes a sample data table displaying pairs of X and Y values. These values illustrate how changes in X affect Y, reinforcing the linear trend. For instance, when X is 1, Y equals 2; when X increases to 2, Y rises to 4, and so on. This structured presentation allows students to grasp the core idea behind linear relationships in data analysis.</p>
+
+<p>To make the learning experience interactive, the page features a user input section, where students can enter an arbitrary value of X. The system will then calculate the corresponding Y value using the predefined equation Y = 2X. This simple yet effective function helps students explore how changes in the independent variable impact the dependent variable in real time.</p>
+
+<p>The prediction functionality is implemented using JavaScript, allowing the system to process user inputs dynamically. When a user enters an X value and clicks the "Predict" button, a script executes the equation and instantly displays the calculated Y value. This interactive approach reinforces the concept of linear data relationships and gives students hands-on experience with predictive analysis. The page serves as a valuable educational tool, bridging theoretical concepts with practical application through user engagement and direct experimentation.</p>
+
+    <h2>Sample Data</h2>
+    <table>
+        <tr>
+            <th>Independent Variable (X)</th><th>Dependent Variable (Y)</th>
+        </tr>
+        <tr>
+            <td>1</td><td>2</td>
+        </tr>
+        <tr>
+            <td>2</td><td>4</td>
+        </tr>
+        <tr>
+            <td>3</td><td>6</td>
+        </tr>
+        <tr>
+            <td>4</td><td>8</td>
+        </tr>
+        <tr>
+            <td>5</td><td>10</td>
+        </tr>
+    </table>
+
+    <h3>Enter an X value to predict Y:</h3>
+    <input type="number" id="xValue" placeholder="Enter X value">
+    <button onclick="predictY()">Predict</button>
+
+    <h2>Prediction Result:</h2>
+    <p id="predictionResult"></p>
+
+    <script>
+        function predictY() {
+            let x = document.getElementById("xValue").value;
+            let result = document.getElementById("predictionResult");
+
+            if (x === "") {
+                result.innerHTML = "Please enter a valid number.";
+                result.style.color = "red";
+                return;
+            }
+
+            let y = 2 * x; // Linear equation: Y = 2X
+            result.innerHTML = "Predicted Y value: " + y;
+            result.style.color = "blue";
+        }
+    </script>
+
+    <br>
+    <a href="index.html">Back to Home</a>
+</body>
+</html>

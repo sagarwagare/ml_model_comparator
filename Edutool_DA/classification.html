@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classification & Regression</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 5px; }
+        table { width: 50%; margin: auto; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 8px; text-align: center; }
+        th { background-color: #f4f4f4; }
+		
+			/* Style the header */
+.header {
+  background-color: #3de6e9;
+  padding: 20px;
+  padding-top:5px;
+  padding-bottom:5px;
+  text-align: Left;
+}
+
+
+    </style>
+</head>
+<body>
+<div class="header">
+  <h1>Self Learning Data Analysis</h1>
+</div>
+<br>
+
+    <h1>Classification & Regression: For Predictions</h1><hr>
+    <p>
+Classification and regression are fundamental supervised learning techniques used in machine learning to make predictions. Classification is used when the target variable is categorical, meaning the algorithm assigns data points to predefined classes. Common examples include spam detection (email: spam or not spam) and medical diagnosis (disease: positive or negative). Popular classification algorithms include Decision Trees, Random Forests, Naïve Bayes, and Support Vector Machines.</p>
+
+<p>Regression, on the other hand, is used when the target variable is continuous, meaning it predicts numerical values. A classic example is predicting house prices based on features like size, location, and number of bedrooms. The most widely used regression techniques are Linear Regression, Polynomial Regression, and Multiple Regression. These models estimate relationships between input features (independent variables) and the target output (dependent variable). The performance of these models is evaluated using error metrics such as Mean Squared Error (MSE) and R-squared values.</p>
+
+<p>Both classification and regression rely on training data to learn patterns and relationships, which they then use to make predictions on unseen data. Choosing between these two techniques depends on the nature of the output variable: classification for discrete categories and regression for continuous values.</p><hr>
+
+    <h2>Sample Data for Classification</h2>
+    <table>
+        <tr><th>Age</th><th>Income</th><th>Purchased?</th></tr>
+        <tr><td>25</td><td>Low</td><td>No</td></tr>
+        <tr><td>35</td><td>Medium</td><td>Yes</td></tr>
+        <tr><td>45</td><td>High</td><td>Yes</td></tr>
+    </table>
+
+    <h2>Try Predicting!</h2>
+    <label>Enter Age: </label>
+    <input type="number" id="age" placeholder="Enter age">
+    <button onclick="predict()">Predict</button>
+    <p id="result"></p>
+
+    <script>
+        function predict() {
+            let age = document.getElementById("age").value;
+            let result = document.getElementById("result");
+
+            if (age < 30) {
+                result.innerHTML = "Prediction: No purchase";
+            } else {
+                result.innerHTML = "Prediction: Likely to purchase";
+            }
+        }
+    </script>
+
+    <br>
+    <a href="index.html">Back to Home</a>
+</body>
+</html>

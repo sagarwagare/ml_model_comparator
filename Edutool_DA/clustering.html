@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clustering</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 5px; }
+		table { width: 50%; margin: auto; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 8px; text-align: center; }
+        th { background-color: #f4f4f4; }
+		
+		.low { background-color: #d1e7dd; }
+        .medium { background-color: #fff3cd; }
+        .high { background-color: #f8d7da; }
+		
+			/* Style the header */
+.header {
+  background-color: #3de6e9;
+  padding: 20px;
+  padding-top:5px;
+  padding-bottom:5px;
+  text-align: Left;
+}
+
+
+    </style>
+</head>
+<body>
+<div class="header">
+  <h1>Self Learning Data Analysis</h1>
+</div>
+<br>
+
+    <h1>Clustering: for Grouping</h1><hr>
+    <p>Clustering is an unsupervised learning technique used to group data points with similar characteristics. Unlike classification, clustering does not require labeled training data. Instead, it identifies inherent structures and patterns in data. This technique is commonly applied in market segmentation, image recognition, customer profiling, and anomaly detection.</p>
+
+Popular clustering algorithms include K-Means, Hierarchical Clustering, and DBSCAN. K-Means Clustering partitions data into K groups based on feature similarity, using centroids to represent each cluster. The algorithm iteratively updates cluster assignments to minimize the distance between points and their centroids. Hierarchical Clustering builds a tree-like structure of nested clusters, which is useful for visualizing relationships. DBSCAN (Density-Based Spatial Clustering of Applications with Noise) forms clusters based on density, making it effective for identifying noise and outliers.</p>
+
+To evaluate clustering performance, metrics such as Silhouette Score, Davies-Bouldin Index, and Dunn Index are used. However, since clustering is unsupervised, determining the optimal number of clusters often requires techniques like Elbow Method and Gap Statistics. Clustering helps uncover hidden patterns in data, aiding in decision-making across fields like biology, social sciences, and business analytics.</p><hr>
+    
+    <h2>Example</h2>
+    <p>Imagine we have a dataset of students and we want to group them based on study hours.</p>
+	
+	<table>
+        <tr><th>Student ID</th><th>Study Hours</th></tr>
+        <tr><td>1</td><td>3</td></tr>
+        <tr><td>2</td><td>3</td></tr>
+        <tr><td>3</td><td>7</td></tr>
+		<tr><td>4</td><td>6</td></tr>
+		<tr><td>5</td><td>8</td></tr>
+		<tr><td>6</td><td>11</td></tr>
+		<tr><td>7</td><td>12</td></tr>
+		<tr><td>8</td><td>3</td></tr>
+        <tr><td>9</td><td>3</td></tr>
+        <tr><td>10</td><td>7</td></tr>
+		<tr><td>11</td><td>14</td></tr>
+		<tr><td>12</td><td>12</td></tr>
+		<tr><td>13</td><td>11</td></tr>
+		<tr><td>14</td><td>15</td></tr>
+    </table>
+    <br>
+    <h3>Input Student Study Hours:</h3>
+    <input type="number" id="hours" placeholder="Enter hours">
+    <button onclick="cluster()">Cluster</button>
+    <p id="output"></p>
+	
+	<hr><br>
+	
+	<h1>Clustering - Study Hour Grouping</h1>
+    <p>Upload a CSV file with student study hours to assign them into clusters.</p>
+    <input type="file" id="fileInput" accept=".csv">
+    <br><br><br>
+    <div id="tableContainer"></div>
+	
+
+    <script>
+        function cluster() {
+            let hours = document.getElementById("hours").value;
+            let output = document.getElementById("output");
+
+            if (hours < 5) {
+                output.innerHTML = "Cluster: Low Study Group";
+            } else if (hours <= 10) {
+                output.innerHTML = "Cluster: Medium Study Group";
+            } else {
+                output.innerHTML = "Cluster: High Study Group";
+            }
+        }
+		
+		
+		 document.getElementById('fileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const lines = e.target.result.split("\n").filter(row => row.trim() !== "");
+                const headers = lines[0].split(",");
+                const data = lines.slice(1).map(line => line.split(","));
+                const hoursData = data.map(row => parseFloat(row[1])).filter(val => !isNaN(val));
+				
+
+
+                let html = "<table><tr><th>" + headers.join("</th><th>Cluster</th></tr>");
+
+                data.forEach(row => {
+                    const hours = parseFloat(row[1]);
+                    let cluster = "";
+                    let cssClass = "";
+
+                    if (hours < 5) {
+                        cluster = "Low Study Group";
+                        cssClass = "low";
+                    } else if (hours <= 9) {
+                        cluster = "Medium Study Group";
+                        cssClass = "medium";
+                    } else {
+                        cluster = "High Study Group";
+                        cssClass = "high";
+                    }
+
+                    html += `<tr><td>${row[0]}</td><td>${row[1]}</td><td class="${cssClass}">${cluster}</td></tr>`;
+                });
+
+                html += "</table>";
+                document.getElementById('tableContainer').innerHTML = html;
+            };
+            reader.readAsText(file);
+        });
+		
+		
+    </script>
+
+    <br><br>
+    <a href="index.html">Back to Home</a><br><hr><br><br>
+</body>
+</html>

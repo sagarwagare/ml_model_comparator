@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Association Rules</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 5px; }
+        table { width: 50%; margin: auto; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 8px; text-align: center; }
+        th { background-color: #f4f4f4; }
+		.rule { background-color: #e8f0fe; font-weight: bold; }
+		
+			/* Style the header */
+.header {
+  background-color: #3de6e9;
+  padding: 20px;
+  padding-top:5px;
+  padding-bottom:5px;
+  text-align: Left;
+}
+
+
+    </style>
+</head>
+<body>
+<div class="header">
+  <h1>Self Learning Data Analysis</h1>
+</div>
+<br>
+
+    <h1>Association Rules: For Finding Relationships</h1><hr>
+    <p>
+Association rule mining is a data mining technique used to uncover relationships between variables in large datasets. It is most commonly applied in market basket analysis, where businesses analyze customer purchasing behavior to recommend products frequently bought together. The most widely used algorithm for association rule mining is the Apriori Algorithm, which generates rules based on itemset frequency.</p>
+
+ <p>Association rules take the form X → Y, meaning if X occurs, Y is likely to occur as well. For example, in retail, an association rule could be: "If a customer buys bread, they are likely to buy butter." The strength of these rules is measured using three key metrics:</p>
+
+ <p>1). Support – The frequency of an itemset appearing in the dataset.</p>
+ <p>2.) Confidence – The likelihood of Y occurring given that X has occurred.</p>
+ <p>3). Lift – Measures the strength of an association compared to random chance (lift > 1 indicates a strong rule).</p>
+<p>Advanced techniques such as FP-Growth (Frequent Pattern Growth Algorithm) enhance the efficiency of association rule mining by reducing the need for multiple scans of the dataset. These methods are applied in e-commerce, medical diagnosis, web usage mining, and fraud detection.</p><hr>
+
+    <h2>Sample Transactions</h2>
+    <table>
+        <tr><th>Transaction ID</th><th>Items Bought</th></tr>
+        <tr><td>1</td><td>Bread, Milk</td></tr>
+        <tr><td>2</td><td>Bread, Butter</td></tr>
+        <tr><td>3</td><td>Bread, Milk, Butter</td></tr>
+    </table>
+
+    <h3>Enter an Item:</h3>
+    <input type="text" id="item" placeholder="Enter item">
+    <button onclick="suggest()">Find Related Items</button>
+    <p id="suggestion"></p>
+	
+	<br>
+	
+	<hr>
+	<br>
+	
+	    <h1>Association Rule Mining</h1>
+    <p>Upload a CSV file of transactions to find simple item-to-item association rules.</p>
+    <input type="file" id="fileInput" accept=".csv"><br><br>
+
+    <h2>Transaction Table</h2>
+    <div id="tableContainer"></div>
+
+    <h2>Generated Rules (Minimum Support: 2)</h2>
+    <div id="rulesContainer"></div>
+	
+	
+
+    <script>
+        function suggest() {
+            let item = document.getElementById("item").value.toLowerCase();
+            let suggestion = document.getElementById("suggestion");
+
+            if (item === "bread") {
+                suggestion.innerHTML = "Suggestion: Customers who buy Bread also buy Milk & Butter";
+            } else if (item === "milk") {
+                suggestion.innerHTML = "Suggestion: Customers who buy Milk often buy Bread";
+            } else {
+                suggestion.innerHTML = "No association found!";
+            }
+        }
+		
+		
+		document.getElementById('fileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const lines = e.target.result.split("\n").filter(line => line.trim() !== "");
+                const data = lines.map(line => line.split(",").map(cell => cell.trim()));
+                const headers = ["TransactionID", "Items"];
+
+                // Display table
+                let html = "<table><tr><th>Transaction ID</th><th>Items</th></tr>";
+                const allTransactions = [];
+
+                for (let row of data) {
+                    if (row.length < 2) continue;
+                    const tid = row[0];
+                    const items = row.slice(1);
+                    allTransactions.push(items);
+                    html += `<tr><td>${tid}</td><td>${items.join(", ")}</td></tr>`;
+                }
+                html += "</table>";
+                document.getElementById("tableContainer").innerHTML = html;
+
+                // Count pair frequencies
+                const pairCounts = {};
+                for (let items of allTransactions) {
+                    let unique = [...new Set(items)];
+                    for (let i = 0; i < unique.length; i++) {
+                        for (let j = i + 1; j < unique.length; j++) {
+                            const pair = [unique[i], unique[j]].sort().join(" → ");
+                            pairCounts[pair] = (pairCounts[pair] || 0) + 1;
+                        }
+                    }
+                }
+
+                // Generate rules with support ≥ 2
+                let rulesHTML = "<table><tr><th>Rule</th><th>Support Count</th></tr>";
+                for (let pair in pairCounts) {
+                    if (pairCounts[pair] >= 2) {
+                        rulesHTML += `<tr class="rule"><td>${pair}</td><td>${pairCounts[pair]}</td></tr>`;
+                    }
+                }
+                rulesHTML += "</table>";
+                document.getElementById("rulesContainer").innerHTML = rulesHTML;
+            };
+            reader.readAsText(file);
+        });
+    </script>
+	
+	
+    </script>
+
+    <br>
+    <a href="index.html">Back to Home</a><br><hr><br><br>
+</body>
+</html>

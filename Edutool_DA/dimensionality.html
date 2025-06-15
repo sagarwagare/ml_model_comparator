@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dimensionality Reduction</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 5px; }
+        canvas { margin: auto; display: block; }
+		
+			/* Style the header */
+.header {
+  background-color: #3de6e9;
+  padding: 20px;
+  padding-top:5px;
+  padding-bottom:5px;
+  text-align: Left;
+}
+
+
+    </style>
+</head>
+<body>
+<div class="header">
+  <h1>Self Learning Data Analysis</h1>
+</div>
+<br>
+
+    <h1>Dimensionality Reduction: For Simplifying Complex Data</h1><hr>
+    <p>
+Dimensionality reduction is a technique used to reduce the number of input variables while retaining essential information. High-dimensional datasets can be computationally expensive, difficult to visualize, and prone to overfitting. Dimensionality reduction simplifies analysis while preserving important patterns in the data.
+
+The two main approaches are Feature Selection and Feature Extraction.</p>
+
+<p>1). Feature Selection removes irrelevant or redundant variables while maintaining the original feature space.</p>
+<p>2). Feature Extraction creates new, lower-dimensional representations from the original features.</p>
+
+<p>Popular techniques include Principal Component Analysis (PCA), t-Distributed Stochastic Neighbor Embedding (t-SNE), and Linear Discriminant Analysis (LDA). PCA projects data onto new axes (principal components) that maximize variance, reducing the number of dimensions while maintaining meaningful variance. t-SNE is useful for visualizing high-dimensional data in two or three dimensions, commonly used in deep learning. LDA is a supervised technique that maximizes class separability in classification tasks.</p>
+
+<p>Dimensionality reduction is applied in areas such as image processing, natural language processing (NLP), genomics, and recommendation systems. It improves model performance, speeds up computation, and enhances visualization, making complex datasets easier to analyze and interpret.</p><hr>
+
+    <h2>PCA Example</h2>
+    <canvas id="pcaChart" width="400" height="200"></canvas>
+
+    <script>
+        let ctxPCA = document.getElementById('pcaChart').getContext('2d');
+        let pcaData = {
+            labels: ["Feature 1", "Feature 2", "Feature 3", "Feature 4"],
+            datasets: [{
+                label: 'Before Reduction',
+                data: [8, 6, 9, 5],
+                backgroundColor: 'blue'
+            }, {
+                label: 'After PCA',
+                data: [8, 5],
+                backgroundColor: 'green'
+            }]
+        };
+
+        new Chart(ctxPCA, {
+            type: 'bar',
+            data: pcaData
+        });
+    </script>
+
+    <br>
+    <a href="index.html">Back to Home</a>
+</body>
+</html>

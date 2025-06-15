@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Anomaly Detection - CSV Upload</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        table { width: 60%; margin: 20px auto; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 8px; }
+        th { background-color: #f0f0f0; }
+        .anomaly { background-color: #ffcccc; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Anomaly Detection</h1>
+    <p>Upload a CSV file (with numeric values) to detect anomalies.</p>
+    <input type="file" id="fileInput" accept=".csv">
+    <br><br>
+    <div id="tableContainer"></div>
+
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const lines = e.target.result.split("\n").filter(row => row.trim() !== "");
+                const headers = lines[0].split(",");
+                const data = lines.slice(1).map(line => line.split(","));
+                const values = data.map(row => parseFloat(row[1])).filter(val => !isNaN(val));
+
+                const mean = values.reduce((a, b) => a + b, 0) / values.length;
+                const stdDev = Math.sqrt(values.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / values.length);
+                const lower = mean - 2 * stdDev;
+                const upper = mean + 2 * stdDev;
+
+                let html = "<table><tr><th>" + headers.join("</th><th>") + "</th></tr>";
+
+                data.forEach(row => {
+                    const amount = parseFloat(row[1]);
+                    const isAnomaly = amount < lower || amount > upper;
+                    html += "<tr><td>" + row[0] + "</td><td class='" + (isAnomaly ? "anomaly" : "") + "'>" + row[1] + "</td></tr>";
+                });
+
+                html += "</table>";
+                document.getElementById('tableContainer').innerHTML = html;
+            };
+            reader.readAsText(file);
+        });
+    </script>
+</body>
+</html>

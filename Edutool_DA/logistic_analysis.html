@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logistic Analysis</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 5px; }
+        table { width: 60%; margin: auto; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 8px; text-align: center; }
+        th { background-color: #f4f4f4; }
+		
+					/* Style the header */
+.header {
+  background-color: #3de6e9;
+  padding: 20px;
+  padding-top:5px;
+  padding-bottom:5px;
+  text-align: Left;
+}
+
+    </style>
+</head>
+<body>
+<div class="header">
+  <h1>Self Learning Data Analysis</h1>
+</div>
+    <h1>Logistic Analysis</h1>
+    <p>Logistic analysis is used to model binary outcomes where the dependent variable has only two possible values (e.g., success/failure, yes/no). The Logistic Analysis page introduces students to the concept of logistic regression, a statistical technique used for modeling binary outcomes. Unlike linear regression, which predicts continuous values, logistic regression is designed for classification problems where the dependent variable takes only two possible values, typically 0 (Failure) or 1 (Success). For example, logistic regression can be used to predict whether a customer will purchase a product (1 = Yes, 0 = No) based on various features like past purchases, time spent on a webpage, or income level. The core idea behind logistic regression is to estimate the probability of an event occurring using the sigmoid function, which maps any input value to a probability between 0 and 1.</p>
+
+<p>To help students visualize this concept, the page includes a sample data table that demonstrates a simple logistic relationship between an input feature X and the binary outcome Y. The data includes different X values and their corresponding Y values, showing that as X increases, the likelihood of Y being 1 also increases. For example, when X = 0.5, the outcome is 0 (Failure), while for X = 4.5, the outcome is 1 (Success). This illustrates that certain input values are more likely to result in a successful outcome.</p>
+
+<p>To make the learning experience interactive, users are given the option to enter a custom X value into an input field. When they click the Predict button, the system applies a logistic regression equation of the form Y = sigmoid(WX + B), where W (weight) and B (bias) are predefined coefficients. The sigmoid function is then used to transform the linear combination of inputs into a probability score, representing the likelihood of Y being 1 (Success). The predicted probability is displayed instantly, allowing students to see how different input values influence the outcome. For instance, if a user enters X = 3, the model might predict a 70% chance of success, whereas an input of X = 1 might yield only a 20% chance of success.</p>
+
+<p>By integrating interactive predictions with theoretical explanations, this page helps students understand how logistic regression works in real-world applications, such as medical diagnosis (predicting disease presence), customer behavior analysis, and risk assessment in financial sectors. The ability to test different inputs allows for hands-on experimentation, making the learning process more engaging and insightful.</p>
+
+    <h2>Sample Data</h2>
+    <table>
+        <tr>
+            <th>Feature (X)</th><th>Outcome (Y: 1 = Success, 0 = Failure)</th>
+        </tr>
+        <tr>
+            <td>0.5</td><td>0</td>
+        </tr>
+        <tr>
+            <td>1.2</td><td>0</td>
+        </tr>
+        <tr>
+            <td>2.8</td><td>1</td>
+        </tr>
+        <tr>
+            <td>3.6</td><td>1</td>
+        </tr>
+        <tr>
+            <td>4.5</td><td>1</td>
+        </tr>
+    </table>
+
+    <h3>Enter an X value to predict the probability of success (Y=1):</h3>
+    <input type="number" step="0.1" id="xValue" placeholder="Enter X value">
+    <button onclick="predictY()">Predict</button>
+
+    <h2>Prediction Result:</h2>
+    <p id="predictionResult"></p>
+
+    <script>
+        function sigmoid(z) {
+            return 1 / (1 + Math.exp(-z));
+        }
+
+        function predictY() {
+            let x = document.getElementById("xValue").value;
+            let result = document.getElementById("predictionResult");
+
+            if (x === "") {
+                result.innerHTML = "Please enter a valid number.";
+                result.style.color = "red";
+                return;
+            }
+
+            let weight = 1.5;  // Example coefficient
+            let bias = -2;  // Example bias
+            let z = weight * x + bias;
+            let probability = sigmoid(z);
+
+            result.innerHTML = "Predicted Probability of Success (Y=1): " + probability.toFixed(4);
+            result.style.color = "blue";
+        }
+    </script>
+
+    <br>
+    <a href="index.html">Back to Home</a>
+</body>
+</html>

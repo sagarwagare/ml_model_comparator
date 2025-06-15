@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anomaly Detection</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 5px; }
+        table { width: 40%; margin: auto; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 8px; text-align: center; }
+        th { background-color: #f4f4f4; }
+		.anomaly { background-color: #ffcccc; font-weight: bold; }
+		
+			/* Style the header */
+.header {
+  background-color: #3de6e9;
+  padding: 20px;
+  padding-top:5px;
+  padding-bottom:5px;
+  text-align: Left;
+}
+
+
+    </style>
+</head>
+<body>
+<div class="header">
+  <h1>Self Learning Data Analysis</h1>
+</div>
+<br>
+
+    <h1>Anomaly Detection</h1>
+    <p>Anomalies are unusual data points that differ significantly from others.</p>
+
+    <h2>Sample Data</h2>
+    <table>
+        <tr>
+            <th>Transaction ID</th><th>Amount ($)</th>
+        </tr>
+        <tr>
+            <td>1</td><td>50</td>
+        </tr>
+        <tr>
+            <td>2</td><td>45</td>
+        </tr>
+        <tr>
+            <td>3</td><td>47</td>
+        </tr>
+        <tr>
+            <td>4</td><td>500 (Anomaly)</td>
+        </tr>
+        <tr>
+            <td>5</td><td>52</td>
+        </tr>
+    </table>
+
+    <h3>Enter a transaction amount:</h3>
+    <input type="number" id="amount" placeholder="Enter amount">
+    <button onclick="detectAnomaly()">Check Anomaly</button>
+
+    <h2>Result:</h2>
+    <p id="anomalyResult"></p>
+	
+	<hr>
+	
+	<p>Upload a CSV file (with numeric values) to detect anomalies in your own file and system will find out the anomaly in the file.</p>
+    <input type="file" id="fileInput" accept=".csv">
+    <br><br>
+    <div id="tableContainer"></div>
+
+    <script>
+        function detectAnomaly() {
+            let amount = document.getElementById("amount").value;
+            let result = document.getElementById("anomalyResult");
+
+            if (amount >= 100) {
+                result.innerHTML = "⚠️ This transaction is an anomaly!";
+                result.style.color = "red";
+            } else {
+                result.innerHTML = "✅ This transaction is normal.";
+                result.style.color = "green";
+            }
+        }
+		
+		 document.getElementById('fileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const lines = e.target.result.split("\n").filter(row => row.trim() !== "");
+                const headers = lines[0].split(",");
+                const data = lines.slice(1).map(line => line.split(","));
+                const values = data.map(row => parseFloat(row[1])).filter(val => !isNaN(val));
+
+                const mean = values.reduce((a, b) => a + b, 0) / values.length;
+                const stdDev = Math.sqrt(values.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / values.length);
+                const lower = mean - 2 * stdDev;
+                const upper = mean + 2 * stdDev;
+
+                let html = "<table><tr><th>" + headers.join("</th><th>") + "</th></tr>";
+
+                data.forEach(row => {
+                    const amount = parseFloat(row[1]);
+                    const isAnomaly = amount < lower || amount > upper;
+                    html += "<tr><td>" + row[0] + "</td><td class='" + (isAnomaly ? "anomaly" : "") + "'>" + row[1] + "</td></tr>";
+                });
+
+                html += "</table>";
+                document.getElementById('tableContainer').innerHTML = html;
+            };
+            reader.readAsText(file);
+        });
+    </script>
+
+    <br>
+    <a href="index.html">Back to Home</a><br><hr><br><br>
+</body>
+</html>

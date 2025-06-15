@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anomaly Detection</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 5px; }
+        canvas { margin: auto; display: block; }
+			/* Style the header */
+.header {
+  background-color: #3de6e9;
+  padding: 20px;
+  padding-top:5px;
+  padding-bottom:5px;
+  text-align: Left;
+}
+
+
+    </style>
+</head>
+<body>
+<div class="header">
+  <h1>Self Learning Data Analysis</h1>
+</div>
+<br>
+
+    <h1>Anomaly Detection: For Spotting Outliers</h1><hr>
+    <p>
+Anomaly detection identifies data points that significantly deviate from normal patterns. It is essential in applications such as fraud detection, cybersecurity, medical diagnosis, and fault detection in industrial systems. Anomalies can be classified into three types:</p>
+
+ <p>1). Point Anomalies – A single data instance that deviates from the norm (e.g., a fraudulent transaction).</p>
+ <p>2). Contextual Anomalies – Anomalies that depend on context (e.g., a sudden temperature spike in summer may not be unusual, but the same spike in winter might be).</p>
+ <p>3). Collective Anomalies – A group of related outliers that together indicate abnormal behavior (e.g., multiple failed login attempts signaling a cyber attack).</p>
+
+ <p>Popular anomaly detection methods include Statistical Approaches (e.g., Z-score, IQR method), Machine Learning Models (e.g., Isolation Forest, One-Class SVM), and Clustering-Based Approaches (e.g., DBSCAN). These methods analyze distributions, patterns, and feature relationships to detect irregularities.</p>
+
+ <p>Performance evaluation in anomaly detection is challenging since anomalies are rare. Metrics like Precision-Recall Curve, F1-Score, and Area Under the ROC Curve (AUC-ROC) are used to assess accuracy. Effective anomaly detection helps prevent financial losses, improves security, and enhances system reliability.</p><hr>
+
+    <h2>Example Data</h2>
+    <canvas id="anomalyChart" width="400" height="200"></canvas>
+
+    <script>
+        let ctx = document.getElementById('anomalyChart').getContext('2d');
+        let dataPoints = [10, 12, 11, 13, 50, 12, 14, 15, 11, 10]; // 50 is an anomaly
+        let labels = ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7", "Day 8", "Day 9", "Day 10"];
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Daily Sales',
+                    data: dataPoints,
+                    borderColor: 'blue',
+                    backgroundColor: 'rgba(0, 0, 255, 0.2)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    annotation: {
+                        annotations: [{
+                            type: 'point',
+                            xValue: 4,
+                            yValue: 50,
+                            backgroundColor: 'red',
+                            radius: 5
+                        }]
+                    }
+                }
+            }
+        });
+    </script>
+
+    <br>
+    <a href="index.html">Back to Home</a>
+</body>
+</html>
